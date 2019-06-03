@@ -1,0 +1,178 @@
+# Enter your network definition here.
+# Use Shift+Enter to update the visualization.
+# Enter your network definition here.
+# Use Shift+Enter to update the visualization.
+
+name: "LeNet"
+layer {
+  name: "mnist"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    scale: 0.00390625
+  }
+  data_param {
+    source: "/media/lbk/ubuntu file/dataset/mnist/caffe/mnist_train_lmdb"
+    batch_size: 128
+    backend: LMDB
+  }
+}
+layer {
+  name: "mnist"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    scale: 0.00390625
+  }
+  data_param {
+    source: "/media/lbk/ubuntu file/dataset/mnist/caffe/mnist_test_lmdb"
+    batch_size: 128
+    backend: LMDB
+  }
+}
+
+# 将 data 转换为 [T,Batch, H]
+# 将batch改成1
+layer {
+  name: "reshape"
+  type: "Reshape"
+  bottom: "data"
+  top: "reshape1"
+  reshape_param {
+    shape {
+    	dim:28 
+      dim:128
+      dim:28
+    }
+  }
+}
+
+# 提供连续标志，证明连续一张像素行
+layer {
+  name: "cont"
+  type: "HDF5Data"
+  top: "cont"
+  hdf5_data_param {
+    source: "/home/lbk/ocr/LSTM/caffe/lstm_conv_h5.txt" 
+    batch_size: 128
+  }
+}
+
+
+
+#将 cont 转换为 [T, batch]
+layer {
+  name: "reshape1"
+  type: "Reshape"
+  bottom: "cont"
+  top: "cont1"
+  reshape_param {
+    shape { 
+    	dim:28 
+      dim:128
+    }
+  }
+}
+
+layer {
+  name: "lstm1"
+  type: "LSTM"
+  bottom: "reshape1"
+  bottom: "cont1"
+  top: "lstm1"
+  recurrent_param {
+    num_output: 30 # 这里果然可以随便设置的，应该是参数w的大小
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+
+
+layer {
+  name: "lstm2"
+  type: "LSTM"
+  bottom: "lstm1"
+  bottom: "cont1"
+  top: "lstm2"
+  recurrent_param {
+    num_output: 10
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+  }
+}
+
+
+#输出为28个时间步的 output [T, batch, 10] 只使用第28个时间步的值 output2
+layer {
+  name: "slice"
+  type: "Slice"
+  bottom: "lstm2"
+  top: "output1"
+  top: "output2"
+  slice_param {
+    axis: 0
+    slice_point: 27
+  }
+ }
+
+ #output1 一直输出影响观察，这里随便加的一层，没有作用
+layer {
+  name: "reduction"
+  type: "Reduction"
+  bottom: "output1"
+  top: "output11"
+  reduction_param {
+		axis: 0
+  }
+}
+
+
+layer {
+  name: "reshape2"
+  type: "Reshape"
+  bottom: "output2"
+  top: "output22"
+  reshape_param {
+    shape {dim:128 dim:-1}
+  }
+}
+
+
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "output22"
+  bottom: "label"
+  top: "loss"
+}
+
+
+layer {
+  name: "accuracy"
+  type: "Accuracy"
+  bottom: "output22"
+  bottom: "label"
+  top: "accuracy"
+}

@@ -1,0 +1,1527 @@
+layer {
+  name: "lstm1_"
+  type: "Input"
+  top: "x"
+  top: "cont"
+  input_param {
+    shape {
+      dim: 28
+      dim: 128
+      dim: 28
+    }
+    shape {
+      dim: 28
+      dim: 128
+    }
+  }
+}
+layer {
+  name: "lstm1_"
+  type: "Input"
+  top: "c_0"
+  top: "h_0"
+  input_param {
+    shape {
+      dim: 1
+      dim: 128
+      dim: 128
+    }
+    shape {
+      dim: 1
+      dim: 128
+      dim: 128
+    }
+  }
+}
+layer {
+  name: "lstm1_cont_slice"
+  type: "Slice"
+  bottom: "cont"
+  top: "cont_1"
+  top: "cont_2"
+  top: "cont_3"
+  top: "cont_4"
+  top: "cont_5"
+  top: "cont_6"
+  top: "cont_7"
+  top: "cont_8"
+  top: "cont_9"
+  top: "cont_10"
+  top: "cont_11"
+  top: "cont_12"
+  top: "cont_13"
+  top: "cont_14"
+  top: "cont_15"
+  top: "cont_16"
+  top: "cont_17"
+  top: "cont_18"
+  top: "cont_19"
+  top: "cont_20"
+  top: "cont_21"
+  top: "cont_22"
+  top: "cont_23"
+  top: "cont_24"
+  top: "cont_25"
+  top: "cont_26"
+  top: "cont_27"
+  top: "cont_28"
+  slice_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_x_transform"
+  type: "InnerProduct"
+  bottom: "x"
+  top: "W_xc_x"
+  param {
+    name: "W_xc"
+  }
+  param {
+    name: "b_c"
+  }
+  propagate_down: true
+  inner_product_param {
+    num_output: 512
+    bias_term: true
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_W_xc_x_slice"
+  type: "Slice"
+  bottom: "W_xc_x"
+  top: "W_xc_x_1"
+  top: "W_xc_x_2"
+  top: "W_xc_x_3"
+  top: "W_xc_x_4"
+  top: "W_xc_x_5"
+  top: "W_xc_x_6"
+  top: "W_xc_x_7"
+  top: "W_xc_x_8"
+  top: "W_xc_x_9"
+  top: "W_xc_x_10"
+  top: "W_xc_x_11"
+  top: "W_xc_x_12"
+  top: "W_xc_x_13"
+  top: "W_xc_x_14"
+  top: "W_xc_x_15"
+  top: "W_xc_x_16"
+  top: "W_xc_x_17"
+  top: "W_xc_x_18"
+  top: "W_xc_x_19"
+  top: "W_xc_x_20"
+  top: "W_xc_x_21"
+  top: "W_xc_x_22"
+  top: "W_xc_x_23"
+  top: "W_xc_x_24"
+  top: "W_xc_x_25"
+  top: "W_xc_x_26"
+  top: "W_xc_x_27"
+  top: "W_xc_x_28"
+  slice_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_h_conted_0"
+  type: "Scale"
+  bottom: "h_0"
+  bottom: "cont_1"
+  top: "h_conted_0"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_1"
+  type: "InnerProduct"
+  bottom: "h_conted_0"
+  top: "W_hc_h_0"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_1"
+  type: "Eltwise"
+  bottom: "W_hc_h_0"
+  bottom: "W_xc_x_1"
+  top: "gate_input_1"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_1"
+  type: "LSTMUnit"
+  bottom: "c_0"
+  bottom: "gate_input_1"
+  bottom: "cont_1"
+  top: "c_1"
+  top: "h_1"
+}
+layer {
+  name: "lstm1_h_conted_1"
+  type: "Scale"
+  bottom: "h_1"
+  bottom: "cont_2"
+  top: "h_conted_1"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_2"
+  type: "InnerProduct"
+  bottom: "h_conted_1"
+  top: "W_hc_h_1"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_2"
+  type: "Eltwise"
+  bottom: "W_hc_h_1"
+  bottom: "W_xc_x_2"
+  top: "gate_input_2"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_2"
+  type: "LSTMUnit"
+  bottom: "c_1"
+  bottom: "gate_input_2"
+  bottom: "cont_2"
+  top: "c_2"
+  top: "h_2"
+}
+layer {
+  name: "lstm1_h_conted_2"
+  type: "Scale"
+  bottom: "h_2"
+  bottom: "cont_3"
+  top: "h_conted_2"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_3"
+  type: "InnerProduct"
+  bottom: "h_conted_2"
+  top: "W_hc_h_2"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_3"
+  type: "Eltwise"
+  bottom: "W_hc_h_2"
+  bottom: "W_xc_x_3"
+  top: "gate_input_3"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_3"
+  type: "LSTMUnit"
+  bottom: "c_2"
+  bottom: "gate_input_3"
+  bottom: "cont_3"
+  top: "c_3"
+  top: "h_3"
+}
+layer {
+  name: "lstm1_h_conted_3"
+  type: "Scale"
+  bottom: "h_3"
+  bottom: "cont_4"
+  top: "h_conted_3"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_4"
+  type: "InnerProduct"
+  bottom: "h_conted_3"
+  top: "W_hc_h_3"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_4"
+  type: "Eltwise"
+  bottom: "W_hc_h_3"
+  bottom: "W_xc_x_4"
+  top: "gate_input_4"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_4"
+  type: "LSTMUnit"
+  bottom: "c_3"
+  bottom: "gate_input_4"
+  bottom: "cont_4"
+  top: "c_4"
+  top: "h_4"
+}
+layer {
+  name: "lstm1_h_conted_4"
+  type: "Scale"
+  bottom: "h_4"
+  bottom: "cont_5"
+  top: "h_conted_4"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_5"
+  type: "InnerProduct"
+  bottom: "h_conted_4"
+  top: "W_hc_h_4"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_5"
+  type: "Eltwise"
+  bottom: "W_hc_h_4"
+  bottom: "W_xc_x_5"
+  top: "gate_input_5"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_5"
+  type: "LSTMUnit"
+  bottom: "c_4"
+  bottom: "gate_input_5"
+  bottom: "cont_5"
+  top: "c_5"
+  top: "h_5"
+}
+layer {
+  name: "lstm1_h_conted_5"
+  type: "Scale"
+  bottom: "h_5"
+  bottom: "cont_6"
+  top: "h_conted_5"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_6"
+  type: "InnerProduct"
+  bottom: "h_conted_5"
+  top: "W_hc_h_5"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_6"
+  type: "Eltwise"
+  bottom: "W_hc_h_5"
+  bottom: "W_xc_x_6"
+  top: "gate_input_6"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_6"
+  type: "LSTMUnit"
+  bottom: "c_5"
+  bottom: "gate_input_6"
+  bottom: "cont_6"
+  top: "c_6"
+  top: "h_6"
+}
+layer {
+  name: "lstm1_h_conted_6"
+  type: "Scale"
+  bottom: "h_6"
+  bottom: "cont_7"
+  top: "h_conted_6"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_7"
+  type: "InnerProduct"
+  bottom: "h_conted_6"
+  top: "W_hc_h_6"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_7"
+  type: "Eltwise"
+  bottom: "W_hc_h_6"
+  bottom: "W_xc_x_7"
+  top: "gate_input_7"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_7"
+  type: "LSTMUnit"
+  bottom: "c_6"
+  bottom: "gate_input_7"
+  bottom: "cont_7"
+  top: "c_7"
+  top: "h_7"
+}
+layer {
+  name: "lstm1_h_conted_7"
+  type: "Scale"
+  bottom: "h_7"
+  bottom: "cont_8"
+  top: "h_conted_7"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_8"
+  type: "InnerProduct"
+  bottom: "h_conted_7"
+  top: "W_hc_h_7"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_8"
+  type: "Eltwise"
+  bottom: "W_hc_h_7"
+  bottom: "W_xc_x_8"
+  top: "gate_input_8"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_8"
+  type: "LSTMUnit"
+  bottom: "c_7"
+  bottom: "gate_input_8"
+  bottom: "cont_8"
+  top: "c_8"
+  top: "h_8"
+}
+layer {
+  name: "lstm1_h_conted_8"
+  type: "Scale"
+  bottom: "h_8"
+  bottom: "cont_9"
+  top: "h_conted_8"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_9"
+  type: "InnerProduct"
+  bottom: "h_conted_8"
+  top: "W_hc_h_8"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_9"
+  type: "Eltwise"
+  bottom: "W_hc_h_8"
+  bottom: "W_xc_x_9"
+  top: "gate_input_9"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_9"
+  type: "LSTMUnit"
+  bottom: "c_8"
+  bottom: "gate_input_9"
+  bottom: "cont_9"
+  top: "c_9"
+  top: "h_9"
+}
+layer {
+  name: "lstm1_h_conted_9"
+  type: "Scale"
+  bottom: "h_9"
+  bottom: "cont_10"
+  top: "h_conted_9"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_10"
+  type: "InnerProduct"
+  bottom: "h_conted_9"
+  top: "W_hc_h_9"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_10"
+  type: "Eltwise"
+  bottom: "W_hc_h_9"
+  bottom: "W_xc_x_10"
+  top: "gate_input_10"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_10"
+  type: "LSTMUnit"
+  bottom: "c_9"
+  bottom: "gate_input_10"
+  bottom: "cont_10"
+  top: "c_10"
+  top: "h_10"
+}
+layer {
+  name: "lstm1_h_conted_10"
+  type: "Scale"
+  bottom: "h_10"
+  bottom: "cont_11"
+  top: "h_conted_10"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_11"
+  type: "InnerProduct"
+  bottom: "h_conted_10"
+  top: "W_hc_h_10"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_11"
+  type: "Eltwise"
+  bottom: "W_hc_h_10"
+  bottom: "W_xc_x_11"
+  top: "gate_input_11"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_11"
+  type: "LSTMUnit"
+  bottom: "c_10"
+  bottom: "gate_input_11"
+  bottom: "cont_11"
+  top: "c_11"
+  top: "h_11"
+}
+layer {
+  name: "lstm1_h_conted_11"
+  type: "Scale"
+  bottom: "h_11"
+  bottom: "cont_12"
+  top: "h_conted_11"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_12"
+  type: "InnerProduct"
+  bottom: "h_conted_11"
+  top: "W_hc_h_11"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_12"
+  type: "Eltwise"
+  bottom: "W_hc_h_11"
+  bottom: "W_xc_x_12"
+  top: "gate_input_12"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_12"
+  type: "LSTMUnit"
+  bottom: "c_11"
+  bottom: "gate_input_12"
+  bottom: "cont_12"
+  top: "c_12"
+  top: "h_12"
+}
+layer {
+  name: "lstm1_h_conted_12"
+  type: "Scale"
+  bottom: "h_12"
+  bottom: "cont_13"
+  top: "h_conted_12"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_13"
+  type: "InnerProduct"
+  bottom: "h_conted_12"
+  top: "W_hc_h_12"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_13"
+  type: "Eltwise"
+  bottom: "W_hc_h_12"
+  bottom: "W_xc_x_13"
+  top: "gate_input_13"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_13"
+  type: "LSTMUnit"
+  bottom: "c_12"
+  bottom: "gate_input_13"
+  bottom: "cont_13"
+  top: "c_13"
+  top: "h_13"
+}
+layer {
+  name: "lstm1_h_conted_13"
+  type: "Scale"
+  bottom: "h_13"
+  bottom: "cont_14"
+  top: "h_conted_13"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_14"
+  type: "InnerProduct"
+  bottom: "h_conted_13"
+  top: "W_hc_h_13"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_14"
+  type: "Eltwise"
+  bottom: "W_hc_h_13"
+  bottom: "W_xc_x_14"
+  top: "gate_input_14"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_14"
+  type: "LSTMUnit"
+  bottom: "c_13"
+  bottom: "gate_input_14"
+  bottom: "cont_14"
+  top: "c_14"
+  top: "h_14"
+}
+layer {
+  name: "lstm1_h_conted_14"
+  type: "Scale"
+  bottom: "h_14"
+  bottom: "cont_15"
+  top: "h_conted_14"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_15"
+  type: "InnerProduct"
+  bottom: "h_conted_14"
+  top: "W_hc_h_14"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_15"
+  type: "Eltwise"
+  bottom: "W_hc_h_14"
+  bottom: "W_xc_x_15"
+  top: "gate_input_15"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_15"
+  type: "LSTMUnit"
+  bottom: "c_14"
+  bottom: "gate_input_15"
+  bottom: "cont_15"
+  top: "c_15"
+  top: "h_15"
+}
+layer {
+  name: "lstm1_h_conted_15"
+  type: "Scale"
+  bottom: "h_15"
+  bottom: "cont_16"
+  top: "h_conted_15"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_16"
+  type: "InnerProduct"
+  bottom: "h_conted_15"
+  top: "W_hc_h_15"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_16"
+  type: "Eltwise"
+  bottom: "W_hc_h_15"
+  bottom: "W_xc_x_16"
+  top: "gate_input_16"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_16"
+  type: "LSTMUnit"
+  bottom: "c_15"
+  bottom: "gate_input_16"
+  bottom: "cont_16"
+  top: "c_16"
+  top: "h_16"
+}
+layer {
+  name: "lstm1_h_conted_16"
+  type: "Scale"
+  bottom: "h_16"
+  bottom: "cont_17"
+  top: "h_conted_16"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_17"
+  type: "InnerProduct"
+  bottom: "h_conted_16"
+  top: "W_hc_h_16"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_17"
+  type: "Eltwise"
+  bottom: "W_hc_h_16"
+  bottom: "W_xc_x_17"
+  top: "gate_input_17"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_17"
+  type: "LSTMUnit"
+  bottom: "c_16"
+  bottom: "gate_input_17"
+  bottom: "cont_17"
+  top: "c_17"
+  top: "h_17"
+}
+layer {
+  name: "lstm1_h_conted_17"
+  type: "Scale"
+  bottom: "h_17"
+  bottom: "cont_18"
+  top: "h_conted_17"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_18"
+  type: "InnerProduct"
+  bottom: "h_conted_17"
+  top: "W_hc_h_17"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_18"
+  type: "Eltwise"
+  bottom: "W_hc_h_17"
+  bottom: "W_xc_x_18"
+  top: "gate_input_18"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_18"
+  type: "LSTMUnit"
+  bottom: "c_17"
+  bottom: "gate_input_18"
+  bottom: "cont_18"
+  top: "c_18"
+  top: "h_18"
+}
+layer {
+  name: "lstm1_h_conted_18"
+  type: "Scale"
+  bottom: "h_18"
+  bottom: "cont_19"
+  top: "h_conted_18"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_19"
+  type: "InnerProduct"
+  bottom: "h_conted_18"
+  top: "W_hc_h_18"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_19"
+  type: "Eltwise"
+  bottom: "W_hc_h_18"
+  bottom: "W_xc_x_19"
+  top: "gate_input_19"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_19"
+  type: "LSTMUnit"
+  bottom: "c_18"
+  bottom: "gate_input_19"
+  bottom: "cont_19"
+  top: "c_19"
+  top: "h_19"
+}
+layer {
+  name: "lstm1_h_conted_19"
+  type: "Scale"
+  bottom: "h_19"
+  bottom: "cont_20"
+  top: "h_conted_19"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_20"
+  type: "InnerProduct"
+  bottom: "h_conted_19"
+  top: "W_hc_h_19"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_20"
+  type: "Eltwise"
+  bottom: "W_hc_h_19"
+  bottom: "W_xc_x_20"
+  top: "gate_input_20"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_20"
+  type: "LSTMUnit"
+  bottom: "c_19"
+  bottom: "gate_input_20"
+  bottom: "cont_20"
+  top: "c_20"
+  top: "h_20"
+}
+layer {
+  name: "lstm1_h_conted_20"
+  type: "Scale"
+  bottom: "h_20"
+  bottom: "cont_21"
+  top: "h_conted_20"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_21"
+  type: "InnerProduct"
+  bottom: "h_conted_20"
+  top: "W_hc_h_20"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_21"
+  type: "Eltwise"
+  bottom: "W_hc_h_20"
+  bottom: "W_xc_x_21"
+  top: "gate_input_21"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_21"
+  type: "LSTMUnit"
+  bottom: "c_20"
+  bottom: "gate_input_21"
+  bottom: "cont_21"
+  top: "c_21"
+  top: "h_21"
+}
+layer {
+  name: "lstm1_h_conted_21"
+  type: "Scale"
+  bottom: "h_21"
+  bottom: "cont_22"
+  top: "h_conted_21"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_22"
+  type: "InnerProduct"
+  bottom: "h_conted_21"
+  top: "W_hc_h_21"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_22"
+  type: "Eltwise"
+  bottom: "W_hc_h_21"
+  bottom: "W_xc_x_22"
+  top: "gate_input_22"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_22"
+  type: "LSTMUnit"
+  bottom: "c_21"
+  bottom: "gate_input_22"
+  bottom: "cont_22"
+  top: "c_22"
+  top: "h_22"
+}
+layer {
+  name: "lstm1_h_conted_22"
+  type: "Scale"
+  bottom: "h_22"
+  bottom: "cont_23"
+  top: "h_conted_22"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_23"
+  type: "InnerProduct"
+  bottom: "h_conted_22"
+  top: "W_hc_h_22"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_23"
+  type: "Eltwise"
+  bottom: "W_hc_h_22"
+  bottom: "W_xc_x_23"
+  top: "gate_input_23"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_23"
+  type: "LSTMUnit"
+  bottom: "c_22"
+  bottom: "gate_input_23"
+  bottom: "cont_23"
+  top: "c_23"
+  top: "h_23"
+}
+layer {
+  name: "lstm1_h_conted_23"
+  type: "Scale"
+  bottom: "h_23"
+  bottom: "cont_24"
+  top: "h_conted_23"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_24"
+  type: "InnerProduct"
+  bottom: "h_conted_23"
+  top: "W_hc_h_23"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_24"
+  type: "Eltwise"
+  bottom: "W_hc_h_23"
+  bottom: "W_xc_x_24"
+  top: "gate_input_24"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_24"
+  type: "LSTMUnit"
+  bottom: "c_23"
+  bottom: "gate_input_24"
+  bottom: "cont_24"
+  top: "c_24"
+  top: "h_24"
+}
+layer {
+  name: "lstm1_h_conted_24"
+  type: "Scale"
+  bottom: "h_24"
+  bottom: "cont_25"
+  top: "h_conted_24"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_25"
+  type: "InnerProduct"
+  bottom: "h_conted_24"
+  top: "W_hc_h_24"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_25"
+  type: "Eltwise"
+  bottom: "W_hc_h_24"
+  bottom: "W_xc_x_25"
+  top: "gate_input_25"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_25"
+  type: "LSTMUnit"
+  bottom: "c_24"
+  bottom: "gate_input_25"
+  bottom: "cont_25"
+  top: "c_25"
+  top: "h_25"
+}
+layer {
+  name: "lstm1_h_conted_25"
+  type: "Scale"
+  bottom: "h_25"
+  bottom: "cont_26"
+  top: "h_conted_25"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_26"
+  type: "InnerProduct"
+  bottom: "h_conted_25"
+  top: "W_hc_h_25"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_26"
+  type: "Eltwise"
+  bottom: "W_hc_h_25"
+  bottom: "W_xc_x_26"
+  top: "gate_input_26"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_26"
+  type: "LSTMUnit"
+  bottom: "c_25"
+  bottom: "gate_input_26"
+  bottom: "cont_26"
+  top: "c_26"
+  top: "h_26"
+}
+layer {
+  name: "lstm1_h_conted_26"
+  type: "Scale"
+  bottom: "h_26"
+  bottom: "cont_27"
+  top: "h_conted_26"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_27"
+  type: "InnerProduct"
+  bottom: "h_conted_26"
+  top: "W_hc_h_26"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_27"
+  type: "Eltwise"
+  bottom: "W_hc_h_26"
+  bottom: "W_xc_x_27"
+  top: "gate_input_27"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_27"
+  type: "LSTMUnit"
+  bottom: "c_26"
+  bottom: "gate_input_27"
+  bottom: "cont_27"
+  top: "c_27"
+  top: "h_27"
+}
+layer {
+  name: "lstm1_h_conted_27"
+  type: "Scale"
+  bottom: "h_27"
+  bottom: "cont_28"
+  top: "h_conted_27"
+  scale_param {
+    axis: 0
+  }
+}
+layer {
+  name: "lstm1_transform_28"
+  type: "InnerProduct"
+  bottom: "h_conted_27"
+  top: "W_hc_h_27"
+  param {
+    name: "W_hc"
+  }
+  inner_product_param {
+    num_output: 512
+    bias_term: false
+    weight_filler {
+      type: "uniform"
+      min: -0.08
+      max: 0.08
+    }
+    axis: 2
+  }
+}
+layer {
+  name: "lstm1_gate_input_28"
+  type: "Eltwise"
+  bottom: "W_hc_h_27"
+  bottom: "W_xc_x_28"
+  top: "gate_input_28"
+  eltwise_param {
+    operation: SUM
+  }
+}
+layer {
+  name: "lstm1_unit_28"
+  type: "LSTMUnit"
+  bottom: "c_27"
+  bottom: "gate_input_28"
+  bottom: "cont_28"
+  top: "c_28"
+  top: "h_28"
+}
+layer {
+  name: "lstm1_"
+  type: "Split"
+  bottom: "c_28"
+  top: "c_T"
+}
+layer {
+  name: "lstm1_h_concat"
+  type: "Concat"
+  bottom: "h_1"
+  bottom: "h_2"
+  bottom: "h_3"
+  bottom: "h_4"
+  bottom: "h_5"
+  bottom: "h_6"
+  bottom: "h_7"
+  bottom: "h_8"
+  bottom: "h_9"
+  bottom: "h_10"
+  bottom: "h_11"
+  bottom: "h_12"
+  bottom: "h_13"
+  bottom: "h_14"
+  bottom: "h_15"
+  bottom: "h_16"
+  bottom: "h_17"
+  bottom: "h_18"
+  bottom: "h_19"
+  bottom: "h_20"
+  bottom: "h_21"
+  bottom: "h_22"
+  bottom: "h_23"
+  bottom: "h_24"
+  bottom: "h_25"
+  bottom: "h_26"
+  bottom: "h_27"
+  bottom: "h_28"
+  top: "h"
+  concat_param {
+    axis: 0
+  }
+}
+layer {
+  name: "h_pseudoloss"
+  type: "Reduction"
+  bottom: "h"
+  top: "h_pseudoloss"
+  loss_weight: 1
+}
